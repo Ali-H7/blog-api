@@ -40,7 +40,7 @@ model Post {
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  nickname    String?  @db.VarChar(32)
+  nickname    String   @db.VarChar(32)
   content     String   @db.VarChar(160)
   dateCreated DateTime @default(now()) @map("date_created")
   userId      Int?     @default(1) @map("user_id")

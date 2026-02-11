@@ -1,12 +1,11 @@
 import prisma from '../config/prisma';
 
 async function createPost(postObject) {
-  const { title, content, dateCreated, published, slug, userId } = postObject;
+  const { title, content, published, slug, userId } = postObject;
   await prisma.post.create({
     data: {
       title,
       content,
-      dateCreated,
       published,
       slug,
       user: {
