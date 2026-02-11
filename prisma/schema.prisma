@@ -29,6 +29,7 @@ model Post {
   content     String
   dateCreated DateTime  @default(now()) @map("date_created")
   published   Boolean   @default(false)
+  slug        String    @unique @db.VarChar(255)
   userId      Int       @map("user_id")
   user        User      @relation(fields: [userId], references: [id])
   comments    Comment[]
