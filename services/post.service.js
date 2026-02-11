@@ -22,6 +22,10 @@ async function findPost(slug) {
     where: {
       slug,
     },
+    include: {
+      comments: true,
+      tags: true,
+    },
   });
   return post;
 }
