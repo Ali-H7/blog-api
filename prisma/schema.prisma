@@ -12,3 +12,48 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id       Int       @id @default(autoincrement())
+  userName String    @unique @map("user_name") @db.VarChar(32)
+  password String    @db.Char(60)
+  posts    Post[]
+  comments Comment[]
+
+  @@map("user")
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String    @unique @db.VarChar(64)
+  content     String
+  dateCreated DateTime  @default(now()) @map("date_created")
+  published   Boolean   @default(false)
+  userId      Int       @map("user_id")
+  user        User      @relation(fields: [userId], references: [id])
+  comments    Comment[]
+  tags        Tag[]
+
+  @@map("post")
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  nickname    String?  @db.VarChar(32)
+  content     String   @db.VarChar(160)
+  dateCreated DateTime @default(now()) @map("date_created")
+  userId      Int?     @default(1) @map("user_id")
+  user        User?    @relation(fields: [userId], references: [id])
+  postId      Int      @map("post_id")
+  post        Post     @relation(fields: [postId], references: [id])
+
+  @@map("comment")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(32)
+  posts Post[]
+
+  @@map("tag")
+}
