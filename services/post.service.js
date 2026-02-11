@@ -1,4 +1,4 @@
-import prisma from '../config/prisma';
+import prisma from '../config/prisma.js';
 
 async function createPost(postObject) {
   const { title, content, published, slug, userId } = postObject;
