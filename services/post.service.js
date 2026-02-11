@@ -8,9 +8,11 @@ async function createPost(postObject) {
       content,
       dateCreated,
       published,
-    },
-    connect: {
-      userId,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
     },
   });
 }
