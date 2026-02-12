@@ -1,11 +1,12 @@
 import express from 'express';
-import { signupRoute } from './routes/index.js';
+import { signupRoute, postRoute } from './routes/index.js';
 const app = express();
 
 // settings
 app.use(express.json());
 
 // routes
+app.use('/', postRoute);
 app.use('/signup', signupRoute);
 
 const PORT = process.env.PORT || 3000;

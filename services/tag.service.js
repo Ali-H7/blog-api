@@ -8,4 +8,9 @@ async function createTag(name) {
   });
 }
 
-export default { createTag };
+async function findAllTags() {
+  const tags = await prisma.tag.findMany();
+  return tags;
+}
+
+export default { createTag, findAllTags };

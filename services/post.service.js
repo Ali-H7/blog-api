@@ -35,6 +35,7 @@ async function findPublishedPosts() {
     where: {
       published: true,
     },
+    include: { user: { select: { id: true, userName: true } } },
   });
   return publishedPosts;
 }
