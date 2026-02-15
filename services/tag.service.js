@@ -13,4 +13,14 @@ async function findAllTags() {
   return tags;
 }
 
-export default { createTag, findAllTags };
+async function findPostsByTag(slug) {
+  const posts = prisma.tag.findUnique({
+    where: {
+      slug,
+    },
+    include: { posts: true },
+  });
+  return posts;
+}
+
+export default { createTag, findAllTags, findPostsByTag };

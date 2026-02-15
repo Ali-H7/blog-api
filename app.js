@@ -1,5 +1,5 @@
 import express from 'express';
-import { signupRoute, postRoute } from './routes/index.js';
+import { signupRoute, postRoute, tagRoute } from './routes/index.js';
 import { errorHandlerMiddleware } from './middlewares/index.js';
 const app = express();
 
@@ -8,6 +8,7 @@ app.use(express.json());
 
 // routes
 app.use('/', postRoute);
+app.use('/tags', tagRoute);
 app.use('/signup', signupRoute);
 
 // error handler
