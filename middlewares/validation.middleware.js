@@ -30,12 +30,16 @@ const signup = [
     .isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 })
     .withMessage(
       'Password should be a minimum of 8 characters ,and contain at least one uppercase, one lowercase, one number, and one special character.',
-    ),
+    )
+    .isLength({ max: 72 })
+    .withMessage('Password cannot be longer than 72 characters'),
   body('confirmPassword')
     .notEmpty()
     .withMessage('Second password field cannot be empty')
     .isString()
     .withMessage('Password must be a string')
+    .isLength({ max: 72 })
+    .withMessage('Password cannot be longer than 72 characters')
     .custom((confirmPassword, { req }) => {
       if (confirmPassword !== req.body.password) {
         throw new Error('Passwords do not match');

@@ -1,9 +1,9 @@
 import express from 'express';
-import { userValidationMiddleware } from '../middlewares/index.js';
+import { validationMiddleware as validation } from '../middlewares/index.js';
 import { userController } from '../controllers/index.js';
 
 const router = express.Router();
 
-router.post('/', userValidationMiddleware, userController.signup);
+router.post('/', validation.signup, validation.checkValidationResult, userController.signup);
 
 export default router;
