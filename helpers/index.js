@@ -1,1 +1,1 @@
-export { default as createError } from './createError.helper.js';
+export { default as errors } from './errors.helper.js';
