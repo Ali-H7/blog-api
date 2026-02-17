@@ -15,6 +15,15 @@ async function createUser(userObject) {
   return user;
 }
 
+async function findByUserId(userId) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  return user;
+}
+
 async function findByUserName(userName) {
   const user = await prisma.user.findFirst({
     where: {
@@ -24,4 +33,4 @@ async function findByUserName(userName) {
   return user;
 }
 
-export default { createUser, findByUserName };
+export default { createUser, findByUserId, findByUserName };

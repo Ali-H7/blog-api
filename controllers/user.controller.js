@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { userService } from '../services/index.js';
+import jwt from 'jsonwebtoken';
 
 async function signup(req, res) {
   const data = req.validatedData;
@@ -9,4 +11,10 @@ async function signup(req, res) {
   res.status(201).json({ user });
 }
 
-export default { signup };
+function login(req, res) {
+  const payload = { id: req.user.id, userName: req.user.userName };
+  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+  return res.status(200).json({ userName: payload.userName, token });
+}
+
+export default { signup, login };
