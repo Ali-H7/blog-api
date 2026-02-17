@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
-import { userService } from '../services';
+import { userService } from '../services/index.js';
 
 const localStrategy = new LocalStrategy(
   { usernameField: 'userName', passwordField: 'password', session: false },
@@ -30,9 +30,10 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET_KEY,
 };
+
 const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
-    const user = await userService.findById(payload.id);
+    const user = await userService.findByUserId(payload.id);
     if (!user) {
       return done(null, false);
     }
@@ -49,4 +50,4 @@ const jwtAuthentication = passport.authenticate('jwt', { session: false, failWit
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-export default { passport, localAuthentication, jwtAuthentication };
+export { passport, localAuthentication, jwtAuthentication };

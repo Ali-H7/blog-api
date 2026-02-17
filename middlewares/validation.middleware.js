@@ -3,6 +3,17 @@ import { userService } from '../services/index.js';
 import { validationResult, matchedData } from 'express-validator';
 import { errors } from '../helpers/index.js';
 
+const login = [
+  body('userName')
+    .trim()
+    .notEmpty()
+    .isString()
+    .isAlphanumeric('en-US')
+    .isLength({ min: 2, max: 32 })
+    .withMessage('Invalid Username'),
+  body('password').notEmpty().isString().isLength({ max: 72 }).withMessage('Invalid Password'),
+];
+
 const signup = [
   body('userName')
     .trim()
@@ -12,8 +23,8 @@ const signup = [
     .withMessage('User name must be a string')
     .isAlphanumeric('en-US')
     .withMessage('User name must contain only English letters and numbers')
-    .isLength({ min: 2, max: 50 })
-    .withMessage('User name must be between 2 and 50 characters')
+    .isLength({ min: 2, max: 32 })
+    .withMessage('User name must be between 2 and 32 characters')
     .bail()
     .custom(async (userName) => {
       const doesUserExist = await userService.findByUserName(userName);
@@ -88,4 +99,4 @@ function checkValidationResult(req, res, next) {
   next();
 }
 
-export default { signup, validateSlug, validateTagName, validateId, checkValidationResult };
+export default { login, signup, validateSlug, validateTagName, validateId, checkValidationResult };

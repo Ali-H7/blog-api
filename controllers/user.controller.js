@@ -14,7 +14,7 @@ async function signup(req, res) {
 function login(req, res) {
   const payload = { id: req.user.id, userName: req.user.userName };
   const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
-  return res.status(200).json({ userName: payload.userName, token });
+  return res.status(200).json({ user: payload, token });
 }
 
 export default { signup, login };

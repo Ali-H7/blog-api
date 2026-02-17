@@ -20,7 +20,7 @@ function handleDatabaseErrors(err, _req, res, next) {
 
 function finalErrorHandler(err, _req, res, _next) {
   const isDevEnv = process.env.NODE_ENV === 'development';
-  const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || err.status || 500;
   const errorStack = isDevEnv ? err.stack : null;
   const errorMessage = statusCode >= 500 && !isDevEnv ? 'Internal Server Error' : err.message;
   const validationErrors = err instanceof errors.ValidationError ? err.details : null;
