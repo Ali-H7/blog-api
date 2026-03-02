@@ -11,6 +11,11 @@ async function getPostsByTag(req, res) {
   res.status(200).json({ posts });
 }
 
+async function getTagsWithPostCount(req, res) {
+  const tags = await tagService.findTagsWithPostCount();
+  res.status(200).json({ tags });
+}
+
 async function createTag(req, res) {
   const { name } = req.validatedData;
   const slug = convertToSlug(name);
@@ -31,4 +36,4 @@ async function deleteTag(req, res) {
   res.status(204).json();
 }
 
-export default { getPostsByTag, createTag, updateTag, deleteTag };
+export default { getPostsByTag, getTagsWithPostCount, createTag, updateTag, deleteTag };

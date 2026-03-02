@@ -29,8 +29,24 @@ async function deleteTag(id) {
   });
 }
 
-async function findAllTags() {
-  const tags = await prisma.tag.findMany();
+async function findTagsWithPostCount() {
+  const tags = await prisma.tag.findMany({
+    where: {
+      posts: {
+        some: {},
+      },
+    },
+    include: {
+      _count: {
+        select: { posts: true },
+      },
+    },
+    orderBy: {
+      posts: {
+        _count: 'desc',
+      },
+    },
+  });
   return tags;
 }
 
@@ -44,4 +60,4 @@ async function findPostsByTag(slug) {
   return posts;
 }
 
-export default { createTag, updateTag, deleteTag, findAllTags, findPostsByTag };
+export default { createTag, updateTag, deleteTag, findTagsWithPostCount, findPostsByTag };
