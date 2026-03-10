@@ -13,7 +13,8 @@ async function signup(req, res) {
 
 function login(req, res) {
   const payload = { id: req.user.id, userName: req.user.userName };
-  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+  console.log(payload);
+  const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '7d' });
   return res.status(200).json({ user: payload, token });
 }
 
