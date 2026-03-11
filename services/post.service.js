@@ -25,6 +25,11 @@ async function findPost(slug) {
     include: {
       comments: true,
       tags: true,
+      user: {
+        select: {
+          userName: true,
+        },
+      },
     },
   });
   return post;
@@ -35,7 +40,7 @@ async function findPublishedPosts() {
     where: {
       published: true,
     },
-    include: { user: { select: { id: true, userName: true } } },
+    include: { tags: true },
   });
   return publishedPosts;
 }
@@ -45,4 +50,17 @@ async function findAllPosts() {
   return posts;
 }
 
-export default { createPost, findPost, findPublishedPosts, findAllPosts };
+async function findPostsByQuery(query) {
+  const posts = await prisma.post.findMany({
+    where: {
+      title: {
+        contains: query,
+        mode: 'insensitive',
+      },
+      published: true,
+    },
+  });
+  return posts;
+}
+
+export default { createPost, findPost, findPublishedPosts, findAllPosts, findPostsByQuery };

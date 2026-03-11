@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 // routes
-app.use('/', postRoute);
+app.use('/posts', postRoute);
 app.use('/tags', tagRoute);
 app.use('/login', loginRoute);
 app.use('/signup', signupRoute);

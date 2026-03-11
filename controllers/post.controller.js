@@ -1,10 +1,15 @@
 import { postService, tagService } from '../services/index.js';
 import { errors } from '../helpers/index.js';
 
-async function getPublishedPostsAndTags(req, res) {
+async function getPublishedPosts(req, res) {
   const posts = await postService.findPublishedPosts();
-  const tags = await tagService.findAllTags();
-  res.status(200).json({ posts, tags });
+  res.status(200).json({ posts });
+}
+
+async function getPostsByQuery(req, res) {
+  const { query } = req.query;
+  const posts = await postService.findPostsByQuery(query);
+  res.status(200).json({ posts });
 }
 
 async function getPostWithComments(req, res) {
@@ -16,4 +21,4 @@ async function getPostWithComments(req, res) {
   res.status(200).json({ post });
 }
 
-export default { getPublishedPostsAndTags, getPostWithComments };
+export default { getPublishedPosts, getPostsByQuery, getPostWithComments };
