@@ -2,9 +2,11 @@ import express from 'express';
 import { loginRoute, signupRoute, postRoute, tagRoute } from './routes/index.js';
 import { errorHandlerMiddleware } from './middlewares/index.js';
 import { passport } from './config/passport.js';
+import cors from 'cors';
 const app = express();
 
 // settings
+app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 
