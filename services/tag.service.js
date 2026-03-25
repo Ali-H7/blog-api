@@ -50,14 +50,27 @@ async function findTagsWithPostCount() {
   return tags;
 }
 
-async function findPostsByTag(slug) {
-  const posts = prisma.tag.findUnique({
+async function findTagWithPublishedPosts(slug) {
+  const tag = await prisma.tag.findUnique({
     where: {
       slug,
     },
-    include: { posts: true },
+    include: {
+      posts: {
+        where: {
+          published: true,
+        },
+        include: { tags: true },
+      },
+    },
   });
-  return posts;
+
+  return tag;
 }
 
-export default { createTag, updateTag, deleteTag, findTagsWithPostCount, findPostsByTag };
+async function findAllTags() {
+  const tag = await prisma.tag.findMany();
+  return tag;
+}
+
+export default { createTag, updateTag, deleteTag, findTagsWithPostCount, findTagWithPublishedPosts, findAllTags };

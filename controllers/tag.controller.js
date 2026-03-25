@@ -2,17 +2,22 @@ import { tagService } from '../services/index.js';
 import { errors } from '../helpers/index.js';
 import convertToSlug from '../config/slugify.js';
 
-async function getPostsByTag(req, res) {
+async function getTagWithPublishedPosts(req, res) {
   const { slug } = req.validatedData;
-  const posts = await tagService.findPostsByTag(slug);
-  if (!posts) {
-    throw new errors.GenericError('Posts not found', 404);
+  const tag = await tagService.findTagWithPublishedPosts(slug);
+  if (!tag) {
+    throw new errors.GenericError('Tag not found', 404);
   }
-  res.status(200).json({ posts });
+  res.status(200).json({ tag });
 }
 
 async function getTagsWithPostCount(req, res) {
   const tags = await tagService.findTagsWithPostCount();
+  res.status(200).json({ tags });
+}
+
+async function getAllTags(req, res) {
+  const tags = await tagService.findAllTags();
   res.status(200).json({ tags });
 }
 
@@ -36,4 +41,4 @@ async function deleteTag(req, res) {
   res.status(204).json();
 }
 
-export default { getPostsByTag, getTagsWithPostCount, createTag, updateTag, deleteTag };
+export default { getTagWithPublishedPosts, getTagsWithPostCount, getAllTags, createTag, updateTag, deleteTag };
