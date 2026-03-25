@@ -1,5 +1,14 @@
-import { postService, tagService } from '../services/index.js';
+import { postService } from '../services/index.js';
 import { errors } from '../helpers/index.js';
+import convertToSlug from '../config/slugify.js';
+
+async function createPost(req, res) {
+  const { title, content, published, userId } = req.body;
+  const slug = convertToSlug(title);
+  const postObject = { title, content, published, slug, userId };
+  const post = await postService.createPost(postObject);
+  res.status(201).json({ post });
+}
 
 async function getPublishedPosts(req, res) {
   const posts = await postService.findPublishedPosts();
@@ -21,4 +30,4 @@ async function getPostWithComments(req, res) {
   res.status(200).json({ post });
 }
 
-export default { getPublishedPosts, getPostsByQuery, getPostWithComments };
+export default { getPublishedPosts, createPost, getPostsByQuery, getPostWithComments };

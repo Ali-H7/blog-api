@@ -2,7 +2,7 @@ import prisma from '../config/prisma.js';
 
 async function createPost(postObject) {
   const { title, content, published, slug, userId } = postObject;
-  await prisma.post.create({
+  const post = await prisma.post.create({
     data: {
       title,
       content,
@@ -15,6 +15,7 @@ async function createPost(postObject) {
       },
     },
   });
+  return post;
 }
 
 async function findPost(slug) {

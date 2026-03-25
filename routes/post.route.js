@@ -4,7 +4,6 @@ import { postController } from '../controllers/index.js';
 const router = express.Router();
 
 router.get('/', postController.getPublishedPosts);
-router.post('/');
 router.get('/search', postController.getPostsByQuery);
 router.get('/:slug', postController.getPostWithComments);
 
