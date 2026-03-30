@@ -42,6 +42,7 @@ async function findPublishedPosts() {
       published: true,
     },
     include: { tags: true },
+    orderBy: { dateCreated: 'desc' },
   });
   return publishedPosts;
 }
