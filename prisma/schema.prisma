@@ -24,16 +24,17 @@ model User {
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
-  title       String    @unique @db.VarChar(64)
-  content     String
-  dateCreated DateTime  @default(now()) @map("date_created")
-  published   Boolean   @default(false)
-  slug        String    @unique @db.VarChar(255)
-  userId      Int       @map("user_id")
-  user        User      @relation(fields: [userId], references: [id])
-  comments    Comment[]
-  tags        Tag[]
+  id            Int       @id @default(autoincrement())
+  title         String    @unique @db.VarChar(64)
+  rawText       String    @map("raw_text")
+  formattedText String    @map("formatted_text")
+  dateCreated   DateTime  @default(now()) @map("date_created")
+  published     Boolean   @default(false)
+  slug          String    @unique @db.VarChar(255)
+  userId        Int       @map("user_id")
+  user          User      @relation(fields: [userId], references: [id])
+  comments      Comment[]
+  tags          Tag[]
 
   @@map("post")
 }

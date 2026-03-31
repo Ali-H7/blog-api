@@ -1,17 +1,21 @@
 import prisma from '../config/prisma.js';
 
 async function createPost(postObject) {
-  const { title, content, published, slug, userId } = postObject;
+  const { title, rawText, formattedText, published, slug, tags, userId } = postObject;
   const post = await prisma.post.create({
     data: {
       title,
-      content,
+      rawText,
+      formattedText,
       published,
       slug,
       user: {
         connect: {
           id: userId,
         },
+      },
+      tags: {
+        connect: tags,
       },
     },
   });

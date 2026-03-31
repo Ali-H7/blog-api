@@ -3,9 +3,9 @@ import { errors } from '../helpers/index.js';
 import convertToSlug from '../config/slugify.js';
 
 async function createPost(req, res) {
-  const { title, content, published, userId } = req.body;
+  const { title, rawText, formattedText, published, tags, userId } = req.body;
   const slug = convertToSlug(title);
-  const postObject = { title, content, published, slug, userId };
+  const postObject = { title, rawText, formattedText, published, slug, tags, userId };
   const post = await postService.createPost(postObject);
   res.status(201).json({ post });
 }
