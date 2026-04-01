@@ -41,10 +41,9 @@ model Post {
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  nickname    String   @db.VarChar(32)
   content     String   @db.VarChar(160)
   dateCreated DateTime @default(now()) @map("date_created")
-  userId      Int?     @default(1) @map("user_id")
+  userId      Int?     @map("user_id")
   user        User?    @relation(fields: [userId], references: [id])
   postId      Int      @map("post_id")
   post        Post     @relation(fields: [postId], references: [id])
