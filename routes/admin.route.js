@@ -9,7 +9,7 @@ const { getAllTags, deleteTag, createTag } = tagController;
 const router = express.Router();
 
 router.get('/tags', jwtAuthentication, getAllTags);
-router.delete('/tags', jwtAuthentication, validateId, checkValidationResult, deleteTag);
+router.delete('/tags', jwtAuthentication, validateId('id'), checkValidationResult, deleteTag);
 router.post('/tags', jwtAuthentication, validateTagName, checkValidationResult, createTag);
 router.post('/posts', jwtAuthentication, postController.createPost);
 

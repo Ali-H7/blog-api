@@ -22,6 +22,7 @@ async function getPostsByQuery(req, res) {
 }
 
 async function getPostWithComments(req, res) {
+  console.log(req.user);
   const { slug } = req.params;
   const post = await postService.findPost(slug);
   if (!post) {
