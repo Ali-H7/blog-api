@@ -20,7 +20,6 @@ const signup = [
     .notEmpty()
     .withMessage('User name cannot be empty')
     .isString()
-    .withMessage('User name must be a string')
     .isAlphanumeric('en-US')
     .withMessage('User name must contain only English letters and numbers')
     .isLength({ min: 2, max: 32 })
@@ -68,15 +67,26 @@ const validateTagName = body('name')
   .isLength({ min: 2, max: 32 })
   .withMessage('Tag must between 2 and 32 characters');
 
-const validateId = body('id')
+const validateId = (fieldName, options = { isOptional: false }) => {
+  let validators = body(fieldName)
+    .trim()
+    .notEmpty()
+    .withMessage('Please provide the id to proceed with the request')
+    .isInt()
+    .withMessage('Invalid id')
+    .toInt();
+  if (options.isOptional) validators.optional();
+  return validators;
+};
+
+const validateComment = body('content')
   .trim()
   .notEmpty()
-  .withMessage('Please provide the id to proceed with the request')
+  .withMessage('Comment cannot be empty')
   .isString()
-  .withMessage('Id must be a string')
-  .isInt()
-  .withMessage('Invalid id')
-  .toInt();
+  .withMessage('Comment must be text only')
+  .isLength({ min: 1, max: 160 })
+  .withMessage('Comment must between 1 and 160 characters');
 
 const validateSlug = param('slug')
   .trim()
@@ -99,4 +109,4 @@ function checkValidationResult(req, res, next) {
   next();
 }
 
-export default { login, signup, validateSlug, validateTagName, validateId, checkValidationResult };
+export default { login, signup, validateSlug, validateTagName, validateId, validateComment, checkValidationResult };
