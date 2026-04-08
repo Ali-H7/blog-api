@@ -17,10 +17,20 @@ model User {
   id       Int       @id @default(autoincrement())
   userName String    @unique @map("user_name") @db.VarChar(32)
   password String    @db.Char(60)
+  roleId   Int       @default(1) @map("role_id")
+  role     Role      @relation(fields: [roleId], references: [id])
   posts    Post[]
   comments Comment[]
 
   @@map("user")
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(32)
+  user User[]
+
+  @@map("role")
 }
 
 model Post {
