@@ -1,5 +1,6 @@
 import express from 'express';
 import { jwtAuthentication } from '../config/passport.js';
+import checkIfAdmin from '../middlewares/checkIfAdmin.js';
 import { validationMiddleware as validation } from '../middlewares/index.js';
 import { tagController, postController } from '../controllers/index.js';
 
@@ -8,9 +9,9 @@ const { getAllTags, deleteTag, createTag } = tagController;
 
 const router = express.Router();
 
-router.get('/tags', jwtAuthentication, getAllTags);
-router.delete('/tags', jwtAuthentication, validateId('id'), checkValidationResult, deleteTag);
-router.post('/tags', jwtAuthentication, validateTagName, checkValidationResult, createTag);
-router.post('/posts', jwtAuthentication, postController.createPost);
+router.get('/tags', jwtAuthentication, checkIfAdmin, getAllTags);
+router.delete('/tags', jwtAuthentication, checkIfAdmin, validateId('id'), checkValidationResult, deleteTag);
+router.post('/tags', jwtAuthentication, checkIfAdmin, validateTagName, checkValidationResult, createTag);
+router.post('/posts', jwtAuthentication, checkIfAdmin, postController.createPost);
 
 export default router;
