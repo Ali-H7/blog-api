@@ -8,7 +8,7 @@ const login = [
     .trim()
     .notEmpty()
     .isString()
-    .isAlphanumeric('en-US')
+    .isAlphanumeric('en-US', { ignore: ' ' })
     .isLength({ min: 2, max: 32 })
     .withMessage('Invalid Username'),
   body('password').notEmpty().isString().isLength({ max: 72 }).withMessage('Invalid Password'),
@@ -20,7 +20,7 @@ const signup = [
     .notEmpty()
     .withMessage('User name cannot be empty')
     .isString()
-    .isAlphanumeric('en-US')
+    .isAlphanumeric('en-US', { ignore: ' ' })
     .withMessage('User name must contain only English letters and numbers')
     .isLength({ min: 2, max: 32 })
     .withMessage('User name must be between 2 and 32 characters')
