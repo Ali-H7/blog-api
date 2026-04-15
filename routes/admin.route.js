@@ -2,7 +2,7 @@ import express from 'express';
 import { jwtAuthentication } from '../config/passport.js';
 import checkIfAdmin from '../middlewares/checkIfAdmin.js';
 import { validationMiddleware as validation } from '../middlewares/index.js';
-import { tagController, postController } from '../controllers/index.js';
+import { tagController, postController, userController } from '../controllers/index.js';
 
 const { validateId, validateTagName, checkValidationResult } = validation;
 const { getAllTags, deleteTag, createTag } = tagController;
@@ -13,5 +13,6 @@ router.get('/tags', jwtAuthentication, checkIfAdmin, getAllTags);
 router.delete('/tags', jwtAuthentication, checkIfAdmin, validateId('id'), checkValidationResult, deleteTag);
 router.post('/tags', jwtAuthentication, checkIfAdmin, validateTagName, checkValidationResult, createTag);
 router.post('/posts', jwtAuthentication, checkIfAdmin, postController.createPost);
+router.put('/request-role', jwtAuthentication, userController.updateRole);
 
 export default router;
