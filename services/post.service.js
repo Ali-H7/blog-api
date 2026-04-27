@@ -28,7 +28,16 @@ async function findPost(slug) {
       slug,
     },
     include: {
-      comments: true,
+      comments: {
+        include: {
+          user: {
+            select: {
+              userName: true,
+            },
+          },
+        },
+        orderBy: { dateCreated: 'desc' },
+      },
       tags: true,
       user: {
         select: {

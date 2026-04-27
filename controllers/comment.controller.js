@@ -9,4 +9,10 @@ async function createComment(req, res) {
   res.status(201).json({ comment });
 }
 
-export default { createComment };
+async function deleteComment(req, res) {
+  const { id } = req.validatedData;
+  await commentService.deleteComment(id);
+  res.status(204).json();
+}
+
+export default { createComment, deleteComment };

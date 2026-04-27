@@ -7,8 +7,21 @@ async function createComment(commentObject) {
     post: { connect: { id: postId } },
   };
   if (userId) data.user = { connect: { id: userId } };
-  const comment = await prisma.comment.create({ data });
+  const comment = await prisma.comment.create({
+    data,
+    include: {
+      user: { select: { id: true, userName: true } },
+    },
+  });
   return comment;
 }
 
-export default { createComment };
+async function deleteComment(id) {
+  await prisma.comment.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+export default { createComment, deleteComment };
