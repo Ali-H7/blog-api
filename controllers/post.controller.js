@@ -15,6 +15,11 @@ async function getPublishedPosts(req, res) {
   res.status(200).json({ posts });
 }
 
+async function getAllPosts(req, res) {
+  const posts = await postService.findAllPosts();
+  res.status(200).json({ posts });
+}
+
 async function getPostsByQuery(req, res) {
   const { query } = req.query;
   const posts = await postService.findPostsByQuery(query);
@@ -22,13 +27,19 @@ async function getPostsByQuery(req, res) {
 }
 
 async function getPostWithComments(req, res) {
-  console.log(req.user);
+  const { user } = req;
+  const isAdmin = user?.roleId === 2;
   const { slug } = req.params;
   const post = await postService.findPost(slug);
-  if (!post) {
-    throw new errors.GenericError('Post not found', 404);
-  }
+  if (!post) throw new errors.GenericError('Post not found', 404);
+  if (!post.published && !isAdmin) throw new errors.GenericError(`You don't have permission to view this post.`, 403);
   res.status(200).json({ post });
 }
 
-export default { getPublishedPosts, createPost, getPostsByQuery, getPostWithComments };
+async function deletePost(req, res) {
+  const { id } = req.validatedData;
+  await postService.deletePost(id);
+  res.status(204).json();
+}
+
+export default { getPublishedPosts, getAllPosts, createPost, getPostsByQuery, getPostWithComments, deletePost };

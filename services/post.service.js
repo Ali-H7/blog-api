@@ -61,7 +61,7 @@ async function findPublishedPosts() {
 }
 
 async function findAllPosts() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({ include: { tags: true }, orderBy: { dateCreated: 'desc' } });
   return posts;
 }
 
@@ -78,4 +78,12 @@ async function findPostsByQuery(query) {
   return posts;
 }
 
-export default { createPost, findPost, findPublishedPosts, findAllPosts, findPostsByQuery };
+async function deletePost(id) {
+  await prisma.post.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+export default { createPost, findPost, findPublishedPosts, findAllPosts, findPostsByQuery, deletePost };
