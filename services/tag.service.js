@@ -33,12 +33,12 @@ async function findTagsWithPostCount() {
   const tags = await prisma.tag.findMany({
     where: {
       posts: {
-        some: {},
+        some: { published: true },
       },
     },
     include: {
       _count: {
-        select: { posts: true },
+        select: { posts: { where: { published: true } } },
       },
     },
     orderBy: {
