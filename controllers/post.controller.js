@@ -10,6 +10,14 @@ async function createPost(req, res) {
   res.status(201).json({ post });
 }
 
+async function updatePost(req, res) {
+  const { id, title, rawText, formattedText, published, tags } = req.body;
+  const slug = convertToSlug(title);
+  const postObject = { id, title, rawText, formattedText, published, slug, tags };
+  const post = await postService.updatePost(postObject);
+  res.status(201).json({ post });
+}
+
 async function getPublishedPosts(req, res) {
   const posts = await postService.findPublishedPosts();
   res.status(200).json({ posts });
@@ -42,4 +50,12 @@ async function deletePost(req, res) {
   res.status(204).json();
 }
 
-export default { getPublishedPosts, getAllPosts, createPost, getPostsByQuery, getPostWithComments, deletePost };
+export default {
+  getPublishedPosts,
+  getAllPosts,
+  createPost,
+  updatePost,
+  getPostsByQuery,
+  getPostWithComments,
+  deletePost,
+};

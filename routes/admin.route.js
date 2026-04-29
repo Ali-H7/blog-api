@@ -11,6 +11,22 @@ const router = express.Router();
 
 router.get('/tags', jwtAuthentication, checkIfAdmin, getAllTags);
 router.delete('/tags', jwtAuthentication, checkIfAdmin, validateId('id'), checkValidationResult, deleteTag);
+router.post('/tags', jwtAuthentication, checkIfAdmin, validateTagName, checkValidationResult, createTag);
+
+router.get('/posts', jwtAuthentication, checkIfAdmin, postController.getAllPosts);
+router.put('/posts', jwtAuthentication, checkIfAdmin, postController.updatePost);
+router.post('/posts', jwtAuthentication, checkIfAdmin, postController.createPost);
+router.delete(
+  '/posts',
+  jwtAuthentication,
+  checkIfAdmin,
+  validateId('id'),
+  checkValidationResult,
+  postController.deletePost,
+);
+
+router.put('/request-role', jwtAuthentication, userController.updateRole);
+
 router.delete(
   '/comments',
   jwtAuthentication,
@@ -19,8 +35,4 @@ router.delete(
   checkValidationResult,
   commentController.deleteComment,
 );
-router.post('/tags', jwtAuthentication, checkIfAdmin, validateTagName, checkValidationResult, createTag);
-router.post('/posts', jwtAuthentication, checkIfAdmin, postController.createPost);
-router.put('/request-role', jwtAuthentication, userController.updateRole);
-
 export default router;

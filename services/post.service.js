@@ -22,6 +22,24 @@ async function createPost(postObject) {
   return post;
 }
 
+async function updatePost(postObject) {
+  const { id, title, rawText, formattedText, published, slug, tags } = postObject;
+  const post = await prisma.post.update({
+    where: { id },
+    data: {
+      title,
+      rawText,
+      formattedText,
+      published,
+      slug,
+      tags: {
+        set: tags,
+      },
+    },
+  });
+  return post;
+}
+
 async function findPost(slug) {
   const post = await prisma.post.findUnique({
     where: {
@@ -86,4 +104,4 @@ async function deletePost(id) {
   });
 }
 
-export default { createPost, findPost, findPublishedPosts, findAllPosts, findPostsByQuery, deletePost };
+export default { createPost, updatePost, findPost, findPublishedPosts, findAllPosts, findPostsByQuery, deletePost };
